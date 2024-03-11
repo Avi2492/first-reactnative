@@ -6,10 +6,12 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import BottomSheet from "./BottomSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 const SearchBar = () => (
   <View style={styles.searchBar}>
@@ -36,16 +38,21 @@ const SearchBar = () => (
 );
 
 const CustomHeader = () => {
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const openModal = () => {
+    bottomSheetRef.current?.present();
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
+      <BottomSheet ref={bottomSheetRef} />
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openModal}>
           <Image
             style={styles.logo}
             source={require("../assets/images/logo.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.titleContainer}>
+        <TouchableOpacity style={styles.titleContainer} onPress={openModal}>
           <Text style={styles.title}>Deliver • Now</Text>
           <View style={styles.location}>
             <Text style={styles.subtitle}>Ludhiana</Text>
